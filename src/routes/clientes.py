@@ -115,8 +115,7 @@ def get_all_client():
     finally:
         conn.close()
         
-
-
+        
 #Update client
 @client.put("/cliente/<int:phone>")
 def update_client(phone):
@@ -181,5 +180,44 @@ def update_client(phone):
         conn.close()
     
     
+#Delete client    
+@client.delete("/cliente/<int:phone>")   
+def delete_client(phone):
+    
+    conn = connection_db()    
+    
+    valid_phone = conn.execute("select * from clientes where telefone_client = ?",(phone,)).fetchone()
+    
+    if valid_phone is None:
+        
+        return jsonify({
+            'message':'Telefone informado não existe'
+        }),201
+    
+    try:
+        
+        conn.execute(
+            '''
+                delete from clientes
+                where telefone_client = ?
+            ''',
+            (phone,)
+            )
+        
+        conn.commit()
+        
+        return jsonify({
+            "message":"Cliente excluido com sucesso"
+        }),200
+    
+    
+    except Exception as e:
+        
+        return jsonify({
+            'erro-delete_client':'Entre em contato com o suporte'
+        }),400
+        
+    finally:
+        conn.close()
     
     
