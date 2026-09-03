@@ -79,3 +79,41 @@ def get_users ():
     return jsonify(list_users)
     
 #Update password
+@users.put("/users/<string:email>")
+def update_password (email):
+
+    conn = connection_db()
+    dados = request.get_json()
+    
+    new_password = dados.get('password')
+    
+    print(new_password)
+    print(email)
+    
+    hash_new_password = generate_password_hash(new_password)
+    
+    print(hash_new_password)
+    
+    try:
+        
+        query = '''
+            update users
+            set password = ?
+            where email_user = ?
+        '''
+        
+        conn.execute(query,(hash_new_password, email))
+        
+        conn.commit()
+        
+        return jsonify({
+            'message':'Senha atualizada com sucesso'
+        })
+        
+    except Exception as e:
+        
+        return jsonify({
+            'message-update-password':f'Erro entre em contato com o suporte - {e}'})   
+    
+    finally:
+        conn.close()
