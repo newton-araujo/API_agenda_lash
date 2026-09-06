@@ -19,6 +19,7 @@ def create_procedure():
     
     dados = request.get_json()
     
+    cod_proc = dados.get("cod_proc")
     name_proc = dados.get("name_procedure")
     temp_proc = dados.get("temp_procedure")
     price_proc = dados.get("price_procedure")
@@ -33,11 +34,11 @@ def create_procedure():
     
     try:
         query = '''
-            insert into procedimentos (nome_proc, temp_proc, valor_proc) 
-            values (? , ? , ?)
+            insert into procedimentos (cod_proc ,nome_proc, temp_proc, valor_proc) 
+            values (? , ? , ? ,?)
         '''
         
-        conn.execute(query, (name_proc, temp_proc, price_proc))
+        conn.execute(query, (cod_proc ,name_proc, temp_proc, price_proc))
         
         conn.commit()
         
@@ -84,7 +85,33 @@ def get_all_procedure():
         conn.close()
         
 # looking for a procedure 
-@procedure.get('/procedure/<string:name_proc>')
-def get_procedure(name_proc):
+@procedure.get('/procedure/<int:cod_proc>')
+def get_procedure(cod_proc):
     
-    pass
+    conn = connection_db()
+    
+    try:
+        
+        query = '''
+            select * 
+            from procedimentos
+            where cod_proc = ?
+        '''
+        
+        result = conn.execute(query, (cod_proc,)).fetchone()
+        
+        if result is None:
+            
+            return jsonify({
+                'message':'Nenhum procedimento encontrado'
+            })
+        
+        return jsonify(dict(result))
+    
+    except Exception as e:
+        return jsonify({
+            'message-get-procedure':f'Erro ao buscar procedimento - {e}'
+        })
+        
+    finally:
+        conn.close()
