@@ -117,7 +117,6 @@ def get_procedure(cod_proc):
         conn.close()
         
 # Updating procedure
-
 @procedure.put('/procedure/<int:cod_proc>')
 def updating_procedure(cod_proc):
     
@@ -164,3 +163,4 @@ def updating_procedure(cod_proc):
         
     finally:
         conn.close()
+        
