@@ -6,6 +6,7 @@ from src.routes.login import login_auth
 from src.routes.clientes import client
 from src.routes.procedures import procedure
 from src.routes.search_status import status
+from src.routes.scheduling import scheduling
 
 
 app = Flask(__name__)
@@ -15,7 +16,7 @@ app.register_blueprint(login_auth)
 app.register_blueprint(client)
 app.register_blueprint(procedure)
 app.register_blueprint(status)
-
+app.register_blueprint(scheduling)
 
 if __name__ == "__main__":
     app.run(debug=True)
