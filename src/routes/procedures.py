@@ -14,7 +14,7 @@ def create_procedure():
         
         return jsonify({
             'message':'Erro ao se conectar o banco'
-        })
+        }),401
         
     
     dados = request.get_json()
@@ -29,7 +29,7 @@ def create_procedure():
         
         return jsonify({
             'message':'Preencha todos os campos!'
-        })
+        }),400
         
     
     try:
@@ -44,13 +44,13 @@ def create_procedure():
         
         return jsonify({
             'message':'Procedimento cadastrado com sucesso!'
-        })
+        }),200
         
         
     except Exception as e:
         return jsonify({
             'message-erro-proc':f'Erro ao cadastrar procedimentos - {e}'
-        })
+        }),401
         
     finally:
         conn.close()
@@ -104,14 +104,58 @@ def get_procedure(cod_proc):
             
             return jsonify({
                 'message':'Nenhum procedimento encontrado'
-            })
+            }),400
         
-        return jsonify(dict(result))
+        return jsonify(dict(result)),200
     
     except Exception as e:
         return jsonify({
             'message-get-procedure':f'Erro ao buscar procedimento - {e}'
-        })
+        }),401
+        
+    finally:
+        conn.close()
+        
+# Updating procedure
+
+@procedure.put('/procedure/<int:cod_proc>')
+def updating_procedure(cod_proc):
+    
+    conn = connection_db()
+    dados = request.get_json()
+    
+    name_proc = dados.get('nome_proc')
+    temp_proc = dados.get('temp_proc')
+    price_proc = dados.get('price_get')
+    
+    
+    if name_proc is None or temp_proc is None or price_proc is None:
+        
+        return jsonify({
+            'message':'Preencha todos os campos'
+        }),400
+    
+    try:
+        
+        
+        query = '''
+            
+            update procedimentos
+            set nome_proc = ?
+                temp_proc = ?
+                valor_proc = ?
+            where cod_proc = ?
+                
+            '''
+            
+        
+        
+    
+    except Exception as e:
+        
+        return jsonify({
+            'message':f'Erro ao atualizar procedimento - {e}'
+        }),401
         
     finally:
         conn.close()
