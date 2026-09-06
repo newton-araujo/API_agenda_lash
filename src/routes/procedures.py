@@ -4,7 +4,7 @@ from flask import Blueprint, jsonify, request
 
 procedure = Blueprint("procedure", __name__)
 
-
+# creates a new procedure
 @procedure.post('/procedure')
 def create_procedure():
     
@@ -53,3 +53,38 @@ def create_procedure():
         
     finally:
         conn.close()
+        
+
+ # searches for all procedure
+@procedure.get('/procedure')
+def get_all_procedure():
+    
+    conn = connection_db()
+
+    try:
+        
+        query = '''
+            select *
+            from procedimentos
+        '''
+        
+        dados = conn.execute(query).fetchall()
+        
+        all_proc = [dict(proc) for proc in dados]
+        
+        return jsonify(all_proc)
+        
+    except Exception as e:
+        
+        return jsonify({
+            'messge-get-procedure':f'Erro ao buscar - {e}'
+        })
+        
+    finally:
+        conn.close()
+        
+# looking for a procedure 
+@procedure.get('/procedure/<string:name_proc>')
+def get_procedure(name_proc):
+    
+    pass
