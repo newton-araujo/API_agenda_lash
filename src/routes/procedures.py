@@ -1,5 +1,5 @@
 from src.database.conn import connection_db
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request,json
 
 
 procedure = Blueprint("procedure", __name__)
@@ -122,12 +122,13 @@ def get_procedure(cod_proc):
 def updating_procedure(cod_proc):
     
     conn = connection_db()
-    dados = request.get_json()
+    
+    dados = request.get_json(silent=True)
     
     name_proc = dados.get('nome_proc')
     temp_proc = dados.get('temp_proc')
-    price_proc = dados.get('price_get')
-    
+    price_proc = dados.get('price_proc')
+    print(temp_proc)
     
     if name_proc is None or temp_proc is None or price_proc is None:
         
@@ -137,19 +138,23 @@ def updating_procedure(cod_proc):
     
     try:
         
-        
         query = '''
             
             update procedimentos
-            set nome_proc = ?
-                temp_proc = ?
+            set nome_proc = ?,
+                temp_proc = ?,
                 valor_proc = ?
             where cod_proc = ?
                 
             '''
             
+        conn.execute(query,(name_proc, temp_proc, price_proc, cod_proc))
         
+        conn.commit()
         
+        return jsonify({
+            'massge':f'Procedimento {name_proc} atualizado'
+        })
     
     except Exception as e:
         

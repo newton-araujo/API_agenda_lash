@@ -86,14 +86,9 @@ def update_password (email):
     dados = request.get_json()
     
     new_password = dados.get('password')
-    
-    print(new_password)
-    print(email)
-    
+
     hash_new_password = generate_password_hash(new_password)
-    
-    print(hash_new_password)
-    
+      
     try:
         
         query = '''
