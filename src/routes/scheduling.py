@@ -3,9 +3,9 @@ from flask import Blueprint, request, jsonify
 from src.validations.valid_hour import valid_hour_available
 from src.validations.valid_proc_end_hour import valid_procedure_hr_dt_end
 
-scheduling = Blueprint('agendamento', __name__)
+agendamento = Blueprint('agendamento', __name__)
 
-@scheduling.post('/agendamento')
+@agendamento.post('/agendamento')
 def create_new_scheduling():
     conn = connection_db()
     cursor = conn.cursor()
@@ -44,7 +44,7 @@ def create_new_scheduling():
         conn.close()
 
 
-@scheduling.get('/agendamento')
+@agendamento.get('/agendamento')
 def all_scheduling():
     conn = connection_db()
     cursor = conn.cursor()
@@ -78,7 +78,7 @@ def all_scheduling():
         conn.close()
 
 
-@scheduling.get('/agendamento/<int:id_scheduling>')
+@agendamento.get('/agendamento/<int:id_scheduling>')
 def get_scheduling_by_id(id_scheduling):
     conn = connection_db()
     cursor = conn.cursor()
@@ -113,7 +113,7 @@ def get_scheduling_by_id(id_scheduling):
         conn.close()
 
 
-@scheduling.put('/agendamento/<int:id_scheduling>')
+@agendamento.put('/agendamento/<int:id_scheduling>')
 def update_scheduling(id_scheduling):
     conn = connection_db()
     cursor = conn.cursor()
@@ -159,7 +159,7 @@ def update_scheduling(id_scheduling):
         conn.close()
 
 
-@scheduling.delete('/agendamento/<int:id_scheduling>')
+@agendamento.delete('/agendamento/<int:id_scheduling>')
 def delete_scheduling(id_scheduling):
     conn = connection_db()
     cursor = conn.cursor()
