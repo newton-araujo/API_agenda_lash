@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div align="center">
   <h1>Agenda Lash API ⚙️🌸</h1>
   <p><strong>RESTful API para Gestão Operacional, Agendamentos e Segurança do Estúdio Lash</strong></p>
@@ -39,3 +40,6 @@ api-agendalash/
 │       └── valid_proc_end_hour.py # Cálculo do dt_end conforme a duração do serviço
 ├── app.py                         # Inicialização e registro de Blueprints
 └── requirements.txt
+=======
+#add
+>>>>>>> f2311e378057f1812cbb887cf1c080e7528ac26d
