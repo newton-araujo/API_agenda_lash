@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="./assets/img/primary.png" alt="Agenda Lash Logo" width="140" />
+  
   <h1>Agenda Lash Mobile 🌸</h1>
   <p><strong>Sistema de Gestão e Agendamento para Estúdios de Beleza e Lash Designers</strong></p>
 
